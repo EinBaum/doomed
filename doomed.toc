@@ -1,0 +1,10 @@
+## Interface: 30100
+## Title: Doomed
+## Version: 1.0.1
+## Notes: Nostalgia HUD
+## Author: Mud, aka Eric Tetz <erictetz@gmail.com>
+## SavedVariables: DoomDB
+ui.lua
+config.lua
+face.lua
+tick.lua
