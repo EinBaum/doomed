@@ -1,5 +1,5 @@
 -- The face update state machine / timing is adapted from the original Doom
--- source (© 1993-1996 id Software, Inc.) We're going for maximum authenticity
+-- source (Â© 1993-1996 id Software, Inc.) We're going for maximum authenticity
 -- here. :) In fact, most of the variables names are unchanged, because I just
 -- pasted the C code and started translating.
 --
@@ -76,7 +76,7 @@ function Doom.updateFaceWidget(damage, health, powerup)
          end
       end
    end
-   
+
    if priority < 9 then
       if powerup then
          priority = 8
@@ -84,7 +84,7 @@ function Doom.updateFaceWidget(damage, health, powerup)
          st_faceindex = ST_calcPainOffset(health) + ST_EVILGRINOFFSET
       end
    end
-   
+
    if priority < 8 then
       if damage > 0 then
          priority = 7
@@ -102,15 +102,15 @@ function Doom.updateFaceWidget(damage, health, powerup)
          end
       end
    end
-   
+
    if st_facecount == 0 then
       facing = math.random(0,2)
       st_faceindex = ST_calcPainOffset(health) + facing
       st_facecount = ST_STRAIGHTFACECOUNT
       priority = 0
    end
-   
+
    st_facecount = st_facecount - 1
-   
+
    Doom.setFace(st_faceindex)
 end

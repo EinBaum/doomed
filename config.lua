@@ -110,7 +110,7 @@ function Doom.showBackground(show)
    end
 end
 
-Doom:SetScript('OnMouseUp', 
+Doom:SetScript('OnMouseUp',
    function()
       if arg1 == 'RightButton' then
          if Doom.config:IsVisible() then
