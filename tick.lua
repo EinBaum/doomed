@@ -11,20 +11,22 @@ local health = 0
 -- for tracking power changes
 local old_power = nil
 
+local old_numBuffs = 0
+
 -- gained a buff that's worth grinning about
 local powerup = false
 
 local interval = 1/Doom.TICRATE
 local totalElapsed = 0
-function Doom:OnUpdate(elapsed)
-   totalElapsed = totalElapsed + elapsed
+function Doom:OnUpdate()
+   totalElapsed = totalElapsed + arg1
    if totalElapsed >= interval then
       totalElapsed = 0
 
       if DoomDB.showbg then
-         local power = UnitPower('player')
+         local power = UnitMana('player')
          if power ~= old_power then
-            Doom.setPower(math.floor(power / UnitPowerMax('player') * 100))
+            Doom.setPower(math.floor(power / UnitManaMax('player') * 100))
             old_power = power
          end
       end
@@ -52,10 +54,16 @@ function Doom.UNIT_COMBAT(unit, action, avoid, damage)
    end
 end
 
-function Doom.COMBAT_TEXT_UPDATE(msgtype, buff)
-   if msgtype == 'SPELL_AURA_START' and Doom.powerups[buff] then
+function Doom.UNIT_AURA(unit)
+   local i = 1
+   while UnitBuff('player', i) do i = i + 1 end
+   numBuffs = i - 1
+
+   if old_numBuffs and numBuffs > old_numBuffs then
       powerup = true
    end
+
+   old_numBuffs = numBuffs
 end
 
 function Doom.UNIT_DISPLAYPOWER(unit)

@@ -14,7 +14,6 @@ local PowerColor = {
    [0] = { 0.1, 0.3 , 1 }, -- mana
    [1] = { 1  , 0   , 0 }, -- rage
    [3] = { 0.9, 0.9 , 0 }, -- energy
-   [6] = { 0  , 0.82, 1 }, -- runic power
 }
 
 --------------------------------------------------------------------------------
@@ -137,7 +136,7 @@ local function setDigits(digits, num)
    local blank = 11
    setDigit (digits[1], (num == 100) and 1 or blank)
    setDigit (digits[2], (num == 100 and 0) or (num >= 10 and num/10) or blank)
-   setDigit (digits[3], num%10)
+   setDigit (digits[3], math.mod(num, 10))
 end
 
 function Doom.setHealth(percent)

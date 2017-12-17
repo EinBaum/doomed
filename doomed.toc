@@ -1,6 +1,6 @@
-## Interface: 30100
+## Interface: 11200
 ## Title: Doomed
-## Version: 1.0.1
+## Version: 1.0.1vanilla
 ## Notes: Nostalgia HUD
 ## Author: Mud, aka Eric Tetz <erictetz@gmail.com>
 ## SavedVariables: DoomDB

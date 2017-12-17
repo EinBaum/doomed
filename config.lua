@@ -1,47 +1,18 @@
---------------------------------------------------------------------------------
--- Powerups: show the evil grin when the player gains any of these buffs.
--- Put whatever you want in here. Spelling and capitalization matter.
---------------------------------------------------------------------------------
-local powerups = [[
-   Blood Fury
-   Lightning Speed
-   Berserking
-   Shadowmeld
-   Prowl
-   Berserk
-   Hysteria
-   Rapid Fire
-   Bestial Wrath
-   Stealth
-   Vanish
-   Cloak of Shadows
-   Combustion
-   Invisibility
-   Arcane Power
-   Hot Streak 
-   Avenging Wrath
-   Power Infusion
-   Nightfall
-   Berserker Rage
-   Death Wish
-   Avenging Wrath
-]]
-
--- convert list into lookup table
-Doom.powerups = {}
-powerups:gsub('%s*([^\n]*)\n', 
-   function(s) Doom.powerups[s:gsub('^%s*(.-)%s*','')]=true end) 
 
 --------------------------------------------------------------------------------
 -- Saved Variables
 --------------------------------------------------------------------------------
 
-DoomDB = { showbg=true, scale=1, strata=2 }
-
-Doom:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
+Doom:SetScript('OnEvent', function()
+	Doom[event](arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+end)
 Doom:RegisterEvent('PLAYER_ENTERING_WORLD')
 
 function Doom.PLAYER_ENTERING_WORLD()
+	if not DoomDB then
+		DoomDB = {showbg = true, scale = 1, strata = 2}
+	end
+
    Doom.config.scale:SetValue(DoomDB.scale)
    Doom.config.strata:SetValue(DoomDB.strata)
 
@@ -52,7 +23,7 @@ function Doom.PLAYER_ENTERING_WORLD()
 
    Doom:RegisterEvent('UNIT_COMBAT')
    Doom:RegisterEvent('UNIT_HEALTH')
-   Doom:RegisterEvent('COMBAT_TEXT_UPDATE')
+   Doom:RegisterEvent('UNIT_AURA')
    Doom:RegisterEvent('UNIT_DISPLAYPOWER')
 
    Doom:SetScript('OnUpdate', Doom.OnUpdate)
@@ -60,7 +31,7 @@ end
 
 --------------------------------------------------------------------------------
 -- Configuration UI
--- Currently just for setting scale and strata.  TODO: Add editbox for powerups
+-- Currently just for setting scale and strata.
 --------------------------------------------------------------------------------
 
 Doom.config = CreateFrame('Frame', nil, UIParent)
@@ -94,10 +65,10 @@ ui.scale:SetPoint('Top', ui, 'Top', 0, -45)
 ui.scale:SetMinMaxValues(.5, 2.5)
 ui.scale:SetValueStep(.1)
 ui.scale:SetScript('OnValueChanged',
-   function(self, scale)
-      DoomDB.scale = scale
-      Doom:SetScale(scale)
-      DoomScaleText:SetText(format('Scale: %.1f', scale))
+   function()
+      DoomDB.scale = arg1
+      Doom:SetScale(arg1)
+      DoomScaleText:SetText(format('Scale: %.1f', arg1))
    end
    )
 
@@ -114,10 +85,10 @@ ui.strata:SetPoint('Bottom', ui.scale, 'Top', 0, -70)
 ui.strata:SetMinMaxValues(1, 6)
 ui.strata:SetValueStep(1)
 ui.strata:SetScript('OnValueChanged',
-   function(self, strata)
-      DoomDB.strata = strata
+   function()
+      DoomDB.strata = arg1
       Doom:SetFrameStrata(strata_lookup[DoomDB.strata])
-      DoomStrataText:SetText(format('Strata: %s', strata_lookup[strata]))
+      DoomStrataText:SetText(format('Strata: %s', strata_lookup[arg1]))
    end
    )
 
@@ -140,8 +111,8 @@ function Doom.showBackground(show)
 end
 
 Doom:SetScript('OnMouseUp', 
-   function(self, button)
-      if button == 'RightButton' then
+   function()
+      if arg1 == 'RightButton' then
          if Doom.config:IsVisible() then
             Doom.config:Hide()
          else
