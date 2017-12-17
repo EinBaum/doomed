@@ -21,7 +21,7 @@ local PowerColor = {
 --------------------------------------------------------------------------------
 
 Doom = CreateFrame('Frame', 'Doom', UIParent)
-Doom:SetPoint('Top', UIParent, 'Top', 0, 0)
+Doom:SetPoint('Bottom', UIParent, 'Bottom', 0, 0)
 Doom:SetHeight(32)
 Doom:SetWidth(150)
 
