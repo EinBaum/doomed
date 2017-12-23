@@ -21,7 +21,7 @@ local PowerColor = {
 --------------------------------------------------------------------------------
 
 Doom = CreateFrame('Frame', 'Doom', UIParent)
-Doom:SetPoint('Bottom', UIParent, 'Bottom', 0, 0)
+Doom:SetPoint('Top', UIParent, 'Top', 0, 0)
 Doom:SetHeight(32)
 Doom:SetWidth(150)
 
@@ -29,8 +29,8 @@ function Doom.MakeDraggable(f)
    f:EnableMouse(true)
    f:SetMovable(true)
    f:RegisterForDrag('LeftButton')
-   f:SetScript('OnDragStart', f.StartMoving)
-   f:SetScript('OnDragStop', f.StopMovingOrSizing)
+   f:SetScript('OnDragStart', function() f:StartMoving() end)
+   f:SetScript('OnDragStop', function() f:StopMovingOrSizing() end)
 end
 Doom.MakeDraggable(Doom)
 
