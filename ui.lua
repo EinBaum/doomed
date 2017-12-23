@@ -29,7 +29,7 @@ function Doom.MakeDraggable(f)
    f:EnableMouse(true)
    f:SetMovable(true)
    f:RegisterForDrag('LeftButton')
-   f:SetScript('OnDragStart', function() f:StartMoving() end)
+   f:SetScript('OnDragStart', function() if not DoomDB.locked then f:StartMoving() end end)
    f:SetScript('OnDragStop', function() f:StopMovingOrSizing() end)
 end
 Doom.MakeDraggable(Doom)

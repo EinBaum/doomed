@@ -9,12 +9,13 @@ end)
 Doom:RegisterEvent('PLAYER_ENTERING_WORLD')
 
 function Doom.PLAYER_ENTERING_WORLD()
-	if not DoomDB then
-		DoomDB = {showbg = true, scale = 1, strata = 2}
-	end
+   if not DoomDB then
+      DoomDB = {showbg = true, scale = 1, strata = 2, locked = false}
+   end
 
    Doom.config.scale:SetValue(DoomDB.scale)
    Doom.config.strata:SetValue(DoomDB.strata)
+   Doom.config.lock:SetChecked(DoomDB.locked)
 
    Doom.showBackground(DoomDB.showbg)
 
@@ -40,8 +41,8 @@ local ui = Doom.config
 ui:Hide()
 ui:SetFrameStrata('HIGH')
 ui:SetPoint('Center', UIParent, 'Center', 0, 0)
-ui:SetWidth(230)
-ui:SetHeight(172)
+ui:SetWidth(190)
+ui:SetHeight(220)
 ui:SetHitRectInsets(0, 0, -10, 0) -- for titlebar
 ui:SetBackdrop {
    bgFile = 'Interface\\DialogFrame\\UI-DialogBox-Background',
@@ -91,6 +92,19 @@ ui.strata:SetScript('OnValueChanged',
       DoomStrataText:SetText(format('Strata: %s', strata_lookup[arg1]))
    end
    )
+
+ui.lock = CreateFrame('CheckButton', 'DoomLock', ui, 'UICheckButtonTemplate')
+ui.lock:SetHeight(20)
+ui.lock:SetWidth(20)
+ui.lock:SetPoint('TOPLEFT', ui.strata, 'BOTTOMLEFT', 10, -25)
+ui.lock:SetScript("OnClick", function()
+   DoomDB.locked = ui.lock:GetChecked()
+end)
+
+ui.locktext = ui:CreateFontString(nil, 'OVERLAY', ui)
+ui.locktext:SetPoint('LEFT', ui.lock, 'RIGHT', 0, 0)
+ui.locktext:SetFont('Fonts\\FRIZQT__.TTF', 10)
+ui.locktext:SetText('Lock Dragging')
 
 function Doom.showBackground(show)
    local display = show and Doom.bar.Show or Doom.bar.Hide
